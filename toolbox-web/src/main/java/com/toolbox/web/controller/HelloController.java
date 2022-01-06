@@ -1,14 +1,23 @@
 package com.toolbox.web.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
+@Slf4j
 public class HelloController {
 
     @GetMapping("/hello")
-    public String hello(@RequestParam(value="name",defaultValue = "World")String name){
-        return String.format("hello %s!",name);
+    @ResponseBody
+    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+        return String.format("hello %s!", name);
     }
+
+    @RequestMapping(value = "index")
+    public String index() {
+        log.info("request index...");
+        return "/index";
+    }
+
 }
