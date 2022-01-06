@@ -7,4 +7,4 @@ spring:
       number_format: 0.##
     suffix: .ftl
     template-loader-path:
-      - classpath:\templates
+      - classpath:/templates
