@@ -12,7 +12,7 @@
     <property name="basedir" value="/usr/log/applog" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="com.llpay.framework.autoconfigure.logging.logback.SecurePatternLayoutEncoder">
+        <encoder class="co.framework.autoconfigure.logging.logback.SecurePatternLayoutEncoder">
             <encrypt>true</encrypt>
             <encryptKeys>cardno cardNumber bankacct id_no bind_mob</encryptKeys>
             <partialEncryptKeys>cardno|64 cardNumber|64 bankacct|64 id_no|11 bind_mob|34</partialEncryptKeys>
@@ -24,7 +24,7 @@
     <appender name="bizlogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${basedir}/${appname}.log</file>
         <append>true</append>
-        <encoder class="com.llpay.framework.autoconfigure.logging.logback.SecurePatternLayoutEncoder">
+        <encoder class="com.framework.autoconfigure.logging.logback.SecurePatternLayoutEncoder">
             <encrypt>true</encrypt>
             <encryptKeys>mobile cardno cardNumber bankacct id_no bind_mob</encryptKeys>
             <partialEncryptKeys>mobile|23 cardno|64 cardNumber|64 bankacct|64 id_no|11 bind_mob|34</partialEncryptKeys>
