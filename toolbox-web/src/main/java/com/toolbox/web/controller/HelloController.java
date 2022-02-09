@@ -15,6 +15,7 @@ public class HelloController {
     @GetMapping("/hello")
     @ResponseBody
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+        log.info("test log..");
         return String.format("hello %s!", name);
     }
 

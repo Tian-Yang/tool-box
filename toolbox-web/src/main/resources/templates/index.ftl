@@ -49,7 +49,9 @@
                 'Thanks for logging in, ' + response.name + '!';
         });
     }
+
     var accessToken;
+
     //授权代码
     function auth() {
         //获取登录状态
@@ -69,40 +71,34 @@
                 //登录状态是未登录则调用登录并请求授权
                 FB.login(function (response) {
                     console.log(response)
-                    if(response.status=='connected'){
+                    if (response.status == 'connected') {
                         accessToken = response.authResponse.accessToken;
-                        console.log("accessToken:"+accessToken);
+                        console.log("accessToken:" + accessToken);
                         FB.api('/me', function (response) {
                             console.log("me..")
                             console.log(response);
                         });
-                    }
-                    else{
+                    } else {
                         console.log("login fail")
                     }
 
                 }, {scope: 'public_profile,email,ads_read,ads_management,business_management'});
                 //
             }
-        },true);
+        }, true);
     }
-    function logout(){
+
+    function logout() {
         console.log("logout...")
-        FB.logout(function(response) {
+        FB.logout(function (response) {
             console("logout success...")
         });
     }
 
-    function auth2(){
+    function auth2() {
         var requestUri = new Windows.Foundation.Uri(
-            "https://www.facebook.com/v12.0/dialog/oauth?client_id=1315390985573293&display=popup&response_type=code&redirect_uri=https://www.mengxi.love/fbAccreditCallback");
-        Windows.Security.Authentication.Web.WebAuthenticationBroker.authenticateAsync(
-            options,
-            requestUri)
-            .done(function (result) {
-                    // Handle the response from the Login Dialog
-                }
-            );
+            "https://www.facebook.com/v12.0/dialog/oauth?client_id=1103354517117699&display=popup&response_type=code&redirect_uri=https://www.mengxi.love/fbAccreditCallback&scope=ads_read%2Cads_management%2Cbusiness_management&state=1232131231");
+        window.location.href = requestUri;
     }
 </script>
 
