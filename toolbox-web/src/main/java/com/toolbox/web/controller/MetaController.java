@@ -75,7 +75,7 @@ public class MetaController {
         log.info("------------------------------------------------------>fbAccreditCallback response:{}", response);
         String state = request.getParameter("state");
         String authCode = request.getParameter("code");
-        log.info("------------------------------------------------------>fbAuthCallback user_id:{},state:[{}],auth_code:{} ", state, authCode);
+        log.info("------------------------------------------------------>fbAuthCallback state:[{}],auth_code:{} ", state, authCode);
         String clientId = "1103354517117699";
         QueryWrapper<MetaClient> query = new QueryWrapper<>();
         query.eq("client_id", clientId);
@@ -85,7 +85,7 @@ public class MetaController {
         paramMap.put("client_id", metaClient.getClientId());
         paramMap.put("client_secret", metaClient.getClientSecret());
         paramMap.put("code", authCode);
-        MetaTokenResponse rst = restTemplateUtils.getJsonHttps("/ouath/access_token", paramMap, MetaTokenResponse.class, null);
+        MetaTokenResponse rst = restTemplateUtils.getJsonHttps("https://www.facebook.com/v12.0/ouath/access_token", paramMap, MetaTokenResponse.class, null);
         log.info("MetaTokenResponse:[{}]", rst);
     }
 
