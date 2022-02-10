@@ -1,19 +1,28 @@
 package com.toolbox.web.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.toolbox.bean.MetaApiResponse;
+import com.toolbox.bean.MetaTokenResponse;
+import com.toolbox.entity.MetaClient;
+import com.toolbox.entity.MetaInfo;
+import com.toolbox.service.IMetaClientService;
+import com.toolbox.service.IMetaInfoService;
 import com.toolbox.util.RestTemplateUtils;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -23,6 +32,12 @@ public class MetaController {
     private static final String base_url = "https://graph.facebook.com/v12.0";
     @Resource
     private RestTemplateUtils restTemplateUtils;
+
+    @Resource
+    private IMetaInfoService metaInfoService;
+
+    @Resource
+    private IMetaClientService metaClientService;
 
     @ApiOperation(value = "获取个号信息")
     @GetMapping("/getMe")
@@ -38,14 +53,40 @@ public class MetaController {
         return rst;
     }
 
+    @ApiOperation(value = "查询token信息")
+    @GetMapping("/queryToken")
+    @ResponseBody
+    public List<MetaInfo> queryToken() {
+        return metaInfoService.list();
+    }
+
+    @ApiOperation(value = "查询token信息")
+    @GetMapping("/queryClient")
+    @ResponseBody
+    public MetaClient queryClient(String clientId) {
+        QueryWrapper<MetaClient> query = new QueryWrapper<>();
+        query.eq("client_id", clientId);
+        return metaClientService.getOne(query);
+    }
+
     @ApiOperation(value = "facebook平台的授权回调", notes = "facebook平台的授权回调 ")
     @GetMapping("/fbAccreditCallback")
-    public void fbAccreditCallback(HttpServletRequest request, HttpServletResponse response){
+    public void fbAccreditCallback(HttpServletRequest request, HttpServletResponse response) {
         log.info("------------------------------------------------------>fbAccreditCallback response:{}", response);
-        String userId = request.getParameter("user_id");
         String state = request.getParameter("state");
-        String authCode = request.getParameter("auth_code");
-        log.info("------------------------------------------------------>fbAuthCallback user_id:{},state:[{}],auth_code:{} ", userId, state, authCode);
+        String authCode = request.getParameter("code");
+        log.info("------------------------------------------------------>fbAuthCallback user_id:{},state:[{}],auth_code:{} ", state, authCode);
+        String clientId = "1103354517117699";
+        QueryWrapper<MetaClient> query = new QueryWrapper<>();
+        query.eq("client_id", clientId);
+        MetaClient metaClient = metaClientService.getOne(query);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("redirect_uri", "https://www.mengxi.love/fbAccreditCallback");
+        paramMap.put("client_id", metaClient.getClientId());
+        paramMap.put("client_secret", metaClient.getClientSecret());
+        paramMap.put("code", authCode);
+        MetaTokenResponse rst = restTemplateUtils.getJsonHttps("/ouath/access_token", paramMap, MetaTokenResponse.class, null);
+        log.info("MetaTokenResponse:[{}]", rst);
     }
 
     @RequestMapping(value = "privacy")

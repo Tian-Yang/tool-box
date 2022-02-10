@@ -26,6 +26,8 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <swagger.version>2.9.2</swagger.version>
         <swagger.uri.version>2.9.2</swagger.uri.version>
+        <mybatis.plus.version>3.5.1</mybatis.plus.version>
+        <mybatis.puls.generator.version>3.5.1</mybatis.puls.generator.version>
     </properties>
     <!--设置远程仓库-->
     <repositories>
@@ -64,6 +66,7 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!--springboot start-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -81,6 +84,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
+        <!--springbot end-->
 
         <dependency>
             <groupId>com.facebook.business.sdk</groupId>
@@ -119,6 +123,28 @@
             <artifactId>httpmime</artifactId>
             <version>4.5.5</version>
         </dependency>
+        <!--整合mybatis-plus start-->
+        <!--mysql驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis.puls.generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <!--整合mybatis-plus end-->
     </dependencies>
 
     <build>

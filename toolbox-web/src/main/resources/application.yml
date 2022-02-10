@@ -8,5 +8,9 @@ spring:
     suffix: .ftl
     template-loader-path:
       - classpath:/templates
+  datasource:
+    url: jdbc:${DATASOURCE_DBTYPE:mysql}://${DATASOURCE_HOST:81.69.247.184}:${DATASOURCE_PORT:3306}/tool_box?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:666666}
 logging:
   config:classpath: logback.xml
